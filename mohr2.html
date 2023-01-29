@@ -1,0 +1,43 @@
+<!DOCTYPE html>>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./two.min.js"></script>
+        <style>
+            .card
+            {
+                background-color:#000000 ;
+                width:100%;
+                height:100%;
+                border-radius: 8px;
+                border: 5px solid;
+                border-width: 2px;
+                cursor: pointer;
+                transition: 0.4s;
+                margin-bottom: 10px;
+                margin:auto;
+            }
+        </style>
+        </head>
+    <body>
+        <div id="canvas" class="card">
+        </div>
+    <script type="text/javascript">
+        let params = {
+            fullscreen: true
+        };
+        let ob1 = document.getElementById('canvas');
+        let two1 = new Two(params);
+        two1.appendTo(ob1);
+        let circle = two1.makeCircle((two1.width ) / 2, (two1.height) / 2, 160);
+        var xaxis = two1.makeLine((two1.width)-160, two1.height / 2, (two1.width), two1.height / 2);
+        circle.fill = '#06090c';
+        circle.stroke = '#42c1f9';
+        xaxis.linewidth = 4;
+        xaxis.noFill();
+        xaxis.stroke = "#ffffff"
+        circle.linewidth=6;
+        two1.update();
+    </script>
+    </body>
+</html>
