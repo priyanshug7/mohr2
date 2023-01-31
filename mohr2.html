@@ -4,40 +4,86 @@
         <meta charset="utf-8">
         <script src="./two.min.js"></script>
         <style>
+            body{
+                background-color: #00182b ;
+            }
             .card
             {
-                background-color:#000000 ;
-                width:100%;
-                height:100%;
+                background-color:#001224 ;
+                width:600px;
+                height:600px;
                 border-radius: 8px;
                 border: 5px solid;
                 border-width: 2px;
                 cursor: pointer;
                 transition: 0.4s;
-                margin-bottom: 10px;
-                margin:auto;
+                margin:160px auto;
+                
             }
         </style>
         </head>
     <body>
-        <div id="canvas" class="card">
+        <div class="card-holder">
+            <div id="canvas" class="card">
+            </div>
         </div>
     <script type="text/javascript">
         let params = {
-            fullscreen: true
+            fitted: true
         };
         let ob1 = document.getElementById('canvas');
         let two1 = new Two(params);
         two1.appendTo(ob1);
         let circle = two1.makeCircle((two1.width ) / 2, (two1.height) / 2, 160);
-        var xaxis = two1.makeLine((two1.width)-160, two1.height / 2, (two1.width), two1.height / 2);
-        circle.fill = '#06090c';
-        circle.stroke = '#42c1f9';
+
+        let xaxis = two1.makeLine(((two1.width)/2)-160, two1.height / 2, ((two1.width)/2)+160, two1.height / 2);
         xaxis.linewidth = 4;
         xaxis.noFill();
-        xaxis.stroke = "#ffffff"
-        circle.linewidth=6;
+        xaxis.stroke = "#ffffff"   
+
+        let yaxis=two1.makeLine((two1.width)/2, (two1.height / 2)+160, (two1.width)/2, (two1.height / 2)-160)
+        yaxis.linewidth = 4;
+        yaxis.noFill();
+        yaxis.stroke = "#ffffff"
+        circle.fill = '#06090c';
+        circle.stroke = '#42c1f9';
+        circle.linewidth=5;
         two1.update();
+
+        var mouse = new Two.Vector();
+        var lyaxis = two1.makeLine(mouse.x, 0, mouse.x, two1.height);
+        lyaxis.linewidth = 4;
+        lyaxis.noFill();
+        lyaxis.stroke = "#42c1f9";
+
+        var dot = two1.makeCircle(0, (two1.height - 160) / 2, 10);
+        dot.fill = '#06090c';
+        dot.stroke = '#13ffb9';
+        dot.linewidth = 3;
+        two1.update();
+        ob1.addEventListener('pointermove', pointermove, false);
+        function pointermove(e) {
+        
+        mouse.x = e.clientX- getOffset(ob1).left;
+        mouse.y = e.clientY - getOffset(ob1).top;
+        theta=((mouse.y)-(two1.height/2))/((mouse.x)-(two1.width/2));
+        x = ((two1.width) / 2 + 160 * Math.cos(theta*Math.PI/180))
+        yy = (two1.height) / 2 + 160 * Math.sin(theta*Math.PI/180);
+
+        lyaxis.translation.set(mouse.x, 0);
+            dot.translation.set(mouse.x, yy);
+            two1.update();
+
+        }
+
+        function getOffset(el) {
+            const rect = el.getBoundingClientRect();
+            return {
+                left: rect.left + window.scrollX,
+                top: rect.top + window.scrollY,
+            };
+        }
+
     </script>
     </body>
 </html>
